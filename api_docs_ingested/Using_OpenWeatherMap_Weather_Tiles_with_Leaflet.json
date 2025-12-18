@@ -1,0 +1,51 @@
+{
+  "source": "https://openweathermap.org/themes/openweathermap/assets/docs/Using_OpenWeatherMap_Weather_Tiles_with_Leaflet.pdf",
+  "document_type": "pdf",
+  "ingested_at": "2025-12-18 21:48:03",
+  "pages": [
+    {
+      "page_number": 1,
+      "content": "JavaScript\nUsing OpenWeatherMap Weather Tiles\nwith Leaflet\nThis guide explains how to create a simple HTML page with a Leaflet world map that\nincludes OpenWeatherMap weather tiles and a layers control panel.\nPrerequisites\n●​ An OpenWeatherMap API key\n●​ Basic knowledge of HTML, CSS, and JavaScript\n●​ Internet connection for loading Leaflet and map tiles\nGetting Started\nStep 1: Get Your OpenWeatherMap API Key\n1.​ Visit openweathermap.org\n2.​ Sign up for an account\n3.​ Navigate to the API keys section in your account\n4.​ Copy your API key for use in the code\nStep 2: Basic HTML Structure\nCreate an HTML file with the following structure:\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Weather Map with Leaflet</title>\n<!-- Leaflet CSS -->\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n1"
+    },
+    {
+      "page_number": 2,
+      "content": "JavaScript\n<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\"\n/>\n<style>\nbody {\nmargin: 0;\nfont-family: Arial, sans-serif;\n}\n#map {\nheight: 100vh;\nwidth: 100%;\n}\n</style>\n</head>\n<body>\n<div id=\"map\"></div>\n<!-- Leaflet JavaScript -->\n<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\"></script>\n<script>\n// Your map code will go here\n</script>\n</body>\n</html>\nStep 3: Initialize the Map\nAdd the following JavaScript code to initialize your Leaflet map:\n// Replace 'YOUR_API_KEY' with your actual OpenWeatherMap API key\nconst API_KEY = 'YOUR_API_KEY';\n// Initialize the map\nconst map = L.map('map').setView([51.509865, -0.118092], 5); // Centered on\nLondon\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n2"
+    },
+    {
+      "page_number": 3,
+      "content": "JavaScript\n// Base map layers\nconst openStreetMap =\nL.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\nattribution: '© OpenStreetMap contributors',\nmaxZoom: 18\n});\nconst cartoDBPositron =\nL.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {\nattribution: '© OpenStreetMap © CartoDB',\nsubdomains: 'abcd',\nmaxZoom: 18\n});\n// Add default base layer\nopenStreetMap.addTo(map);\nStep 4: Add OpenWeatherMap Weather Layers\nOpenWeatherMap provides several weather tile layers. Here are the most commonly\nused ones:\n// Weather tile layers from OpenWeatherMap\nconst weatherLayers = {\n// Precipitation\nprecipitation:\nL.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.\npng?appid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\n// Clouds\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n3"
+    },
+    {
+      "page_number": 4,
+      "content": "clouds:\nL.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?a\nppid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\n// Pressure\npressure:\nL.tileLayer(`https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?\nappid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\n// Wind Speed\nwind:\nL.tileLayer(`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?app\nid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\n// Temperature\ntemperature:\nL.tileLayer(`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?app\nid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n})\n};\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n4"
+    },
+    {
+      "page_number": 5,
+      "content": "JavaScript\nJavaScript\nStep 5: Create Layers Control Panel\nAdd a layers control panel to allow users to switch between base maps and weather\noverlays:\n// Define base maps\nconst baseMaps = {\n\"OpenStreetMap\": openStreetMap,\n\"CartoDB Positron\": cartoDBPositron\n};\n// Define overlay maps (weather layers)\nconst overlayMaps = {\n\"Precipitation\": weatherLayers.precipitation,\n\"Clouds\": weatherLayers.clouds,\n\"Pressure\": weatherLayers.pressure,\n\"Wind Speed\": weatherLayers.wind,\n\"Temperature\": weatherLayers.temperature\n};\n// Add layers control\nconst layersControl = L.control.layers(baseMaps, overlayMaps, {\nposition: 'topright',\ncollapsed: false\n}).addTo(map);\nComplete Working Example\nHere's the complete HTML file combining all the elements:\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n5"
+    },
+    {
+      "page_number": 6,
+      "content": "<title>Weather Map with Leaflet</title>\n<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\"\n/>\n<style>\nbody {\nmargin: 0;\nfont-family: Arial, sans-serif;\n}\n#map {\nheight: 100vh;\nwidth: 100%;\n}\n.info-panel {\nposition: absolute;\ntop: 10px;\nleft: 10px;\nbackground: white;\npadding: 10px;\nborder-radius: 5px;\nbox-shadow: 0 0 10px rgba(0,0,0,0.3);\nz-index: 1000;\n}\n</style>\n</head>\n<body>\n<div class=\"info-panel\">\n<h3>Weather Map</h3>\n<p>Use the layers control to toggle weather overlays</p>\n</div>\n<div id=\"map\"></div>\n<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\"></script>\n<script>\n// Replace with your actual API key\nconst API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY';\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n6"
+    },
+    {
+      "page_number": 7,
+      "content": "// Initialize map\nconst map = L.map('map').setView([51.509865, -0.118092], 5);\n// Base layers\nconst openStreetMap =\nL.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\nattribution: '© OpenStreetMap contributors'\n});\nconst cartoDBPositron =\nL.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {\nattribution: '© OpenStreetMap © CartoDB',\nsubdomains: 'abcd'\n});\n// Add default base layer\nopenStreetMap.addTo(map);\n// Weather layers\nconst weatherLayers = {\nprecipitation:\nL.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.\npng?appid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\nclouds:\nL.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?a\nppid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\npressure:\nL.tileLayer(`https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?\nappid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n7"
+    },
+    {
+      "page_number": 8,
+      "content": "opacity: 0.6\n}),\nwind:\nL.tileLayer(`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?app\nid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n}),\ntemperature:\nL.tileLayer(`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?app\nid=${API_KEY}`, {\nattribution: '© OpenWeatherMap',\nopacity: 0.6\n})\n};\n// Define layer groups for control\nconst baseMaps = {\n\"OpenStreetMap\": openStreetMap,\n\"CartoDB Light\": cartoDBPositron\n};\nconst overlayMaps = {\n\"Precipitation\": weatherLayers.precipitation,\n\"Clouds\": weatherLayers.clouds,\n\"Pressure\": weatherLayers.pressure,\n\"Wind Speed\": weatherLayers.wind,\n\"Temperature\": weatherLayers.temperature\n};\n// Add layers control\nL.control.layers(baseMaps, overlayMaps, {\nposition: 'topright',\ncollapsed: false\n}).addTo(map);\n// Optional: Add scale control\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n8"
+    },
+    {
+      "page_number": 9,
+      "content": "JavaScript\nJavaScript\nL.control.scale().addTo(map);\n</script>\n</body>\n</html>\nAvailable Weather Tile Layers\nOpenWeatherMap provides several weather tile layers:\nLayer\nURL Template\nDescription\nPrecipitation\nprecipitation_new\nShows rainfall and snow\nClouds\nclouds_new\nCloud coverage\nPressure\npressure_new\nAtmospheric pressure\nWind Speed\nwind_new\nWind speed visualization\nTemperature\ntemp_new\nTemperature data\nCustomization Options\nAdjusting Layer Opacity\nconst precipitation = L.tileLayer(url, {\nopacity: 0.4 // Adjust between 0 (transparent) and 1 (opaque)\n});\nChanging Map Center and Zoom\nconst map = L.map('map').setView([latitude, longitude], zoomLevel);\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n9"
+    },
+    {
+      "page_number": 10,
+      "content": "JavaScript\nAdding Custom Controls\n// Custom control for additional functionality\nconst customControl = L.control({position: 'bottomleft'});\ncustomControl.onAdd = function(map) {\nconst div = L.DomUtil.create('div', 'custom-control');\ndiv.innerHTML = '<button>Custom Action</button>';\nreturn div;\n};\ncustomControl.addTo(map);\nTroubleshooting\nCommon Issues\n1.​ Tiles not loading: Verify your API key is correct and active\n2.​ CORS errors: OpenWeatherMap tiles should work from any domain\n3.​ Layer not visible: Check opacity settings and layer order\n4.​ Performance issues: Limit the number of active weather layers\nAPI Key Issues\n●​ Free accounts have rate limits\n●​ Keys may take a few hours to activate\n●​ Ensure the key is included in all tile URLs\nBest Practices\n●​ Keep weather layer opacity between 0.4-0.7 for best visibility\n●​ Don't load all weather layers simultaneously to improve performance\n●​ Consider adding loading indicators for better user experience\n●​ Use appropriate zoom levels (weather data is most detailed at zoom 5-10)\n●​ Cache tiles when possible to reduce API calls\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n10"
+    },
+    {
+      "page_number": 11,
+      "content": "Additional Resources\n●​ Leaflet Documentation\n●​ OpenWeatherMap API Documentation\n●​ Leaflet Plugins\n●​ Weather Map Examples\nOpenWeather Ltd ​ ​\n​\n​\n​\n​\n​\n​\n​\n​\n11"
+    }
+  ]
+}
