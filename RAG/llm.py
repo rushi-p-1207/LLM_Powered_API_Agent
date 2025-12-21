@@ -13,7 +13,7 @@ from langchain_core.messages import (
 class SmartAPILLM:
 #llm engine
     def __init__(self):
-        # init HuggingFace inference endpoint
+        # init HuggingFace inference 
         self._hf_endpoint = HuggingFaceEndpoint(
             repo_id="deepseek-ai/DeepSeek-V3.2",
             task="text-generation"
@@ -41,7 +41,7 @@ class SmartAPILLM:
                 "{query}\n\n"
                 "INSTRUCTIONS:\n"
                 "- Use ONLY the documentation above\n"
-                "- When code is requested, return executable Python code\n"
+                "- When code is requested, return executable code in the language used in the documentation\n"
                 "- Enclose code in triple backticks ```\n"
                 "- Do not hallucinate or guess\n"
             )

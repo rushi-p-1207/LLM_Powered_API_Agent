@@ -3,15 +3,11 @@ from typing import List, Dict
 from docling.document_converter import DocumentConverter
 from docling.datamodel.document import DocumentStream
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+import json
+import os
 
 
 class MarkdownChunker:
-    """
-    Converts PDF documents into structured Markdown and
-    splits them into semantically meaningful chunks
-    for embedding and retrieval.
-    """
-
     def __init__(
         self,
         chunk_size: int = 800,
@@ -55,17 +51,7 @@ class MarkdownChunker:
         pdf_bytes: bytes,
         document_name: str
     ) -> List[Dict]:
-        """
-        Converts PDF bytes into markdown chunks.
-
-        Returns a list of dictionaries:
-        {
-            "chunk_id": int,
-            "content": str,
-            "source": str
-        }
-        """
-
+        """Chunk a PDF given as bytes."""
         pdf_stream = BytesIO(pdf_bytes)
 
         document = DocumentStream(
@@ -76,8 +62,30 @@ class MarkdownChunker:
         result = self.converter.convert(document)
         markdown_text = result.document.export_to_markdown()
 
-        chunks = self.splitter.split_text(markdown_text)
+        return self._split_markdown(markdown_text, document_name)
 
+    def chunk_json(
+        self,
+        json_path: str
+    ) -> List[Dict]:
+        """Chunk an already ingested JSON document."""
+        if not os.path.exists(json_path):
+            raise FileNotFoundError(f"{json_path} does not exist!")
+
+        with open(json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        pages = data.get("pages", [])
+        if not pages:
+            return []
+
+       
+        markdown_text = "\n\n".join(page["content"] for page in pages)
+        document_name = os.path.basename(json_path)
+
+        return self._split_markdown(markdown_text, document_name)
+
+    def _split_markdown(self, markdown_text: str, document_name: str) -> List[Dict]:
+        chunks = self.splitter.split_text(markdown_text)
         return [
             {
                 "chunk_id": idx,
