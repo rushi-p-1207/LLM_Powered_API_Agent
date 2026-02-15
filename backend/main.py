@@ -7,6 +7,9 @@ from RAG.vectorstore import VectorStore
 from RAG.retriever import Retriever
 from RAG.llm import SmartAPILLM
 
+from backend.sandbox_client import SandboxClient
+import re
+
 PDF_URL = "https://openweathermap.org/themes/openweathermap/assets/docs/Using_OpenWeatherMap_Weather_Tiles_with_Leaflet.pdf"
 
 def setup_pipeline():
@@ -37,9 +40,19 @@ def setup_pipeline():
     #llm
     llm = SmartAPILLM()
 
-    return retriever, llm
+    #sandbox
+    sandbox = SandboxClient()
 
-def chat_loop(retriever, llm):
+    return retriever, llm, sandbox
+
+def extract_code(text):
+    # Regex to find code blocks, optionally with 'python' language specifier
+    match = re.search(r"```(python)?\n(.*?)```", text, re.DOTALL)
+    if match:
+        return match.group(2).strip()
+    return None
+
+def chat_loop(retriever, llm, sandbox):
     print("\n===== Welcome to SmartAPI Chat =====")
     print("Type 'exit' to quit.\n")
 
@@ -60,6 +73,20 @@ def chat_loop(retriever, llm):
         answer = llm.generate_answer(context=context, query=user_query)
         print(f"\nLLM:\n{answer}\n")
 
+        # Check for code execution
+        code_to_execute = extract_code(answer)
+        if code_to_execute:
+            print("\n[Code Detected]")
+            print(f"---\n{code_to_execute}\n---")
+            run_choice = input("Do you want to execute this code? (y/n): ").lower()
+            
+            if run_choice == 'y':
+                print("\nExecuting in Sandbox...")
+                result = sandbox.execute_code(code_to_execute)
+                print(f"Sandbox Output:\n{result}\n")
+            else:
+                print("Skipping execution.\n")
+
 if __name__ == "__main__":
-    retriever, llm = setup_pipeline()
-    chat_loop(retriever, llm)
+    retriever, llm, sandbox = setup_pipeline()
+    chat_loop(retriever, llm, sandbox)
