@@ -24,9 +24,9 @@ serve(async (req) => {
       headers: { "Content-Type": "text/plain" },
     });
 
-    } catch (err) {
+  } catch (err) {
     console.error("Proxy Error:", err);
-    return new Response(JSON.stringify({ error: String(err) }), { 
+    return new Response(JSON.stringify({ error: String(err) }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
     });
